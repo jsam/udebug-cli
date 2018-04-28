@@ -5,9 +5,16 @@ Command line interface for udebug platform.
 
 ## Set credentials
 
+Create .env file and put the following values inside:
 ```
-export UDEBUG_USERNAME=<username>
-export UDEBUG_PASSWORD=<password>
+UDEBUG_USERNAME=<username>
+UDEBUG_PASSWORD=<password>
+```
+
+Source the credentials
+
+```
+export $(cat .env | grep -v ^# | xargs)
 ```
 
 ## Explore
@@ -15,3 +22,7 @@ export UDEBUG_PASSWORD=<password>
 ```
 udebug-cli --help
 ```
+
+## NOTE
+
+Not all sentinels are inplace yet, so beware of positional arguments. =)

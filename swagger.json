@@ -1,0 +1,295 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.1.0",
+    "title": "uDebug API"
+  },
+  "host": "www.udebug.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "tags": [
+    {
+      "name": "input"
+    },
+    {
+      "name": "output"
+    },
+    {
+      "name": "hint"
+    }
+  ],
+  "securityDefinitions": {
+    "basicAuth": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "basicAuth": []
+    }
+  ],
+  "paths": {
+    "/input_api/input_list/retrieve.json": {
+      "get": {
+        "tags": [
+          "input"
+        ],
+        "summary": "get list of inputs",
+        "parameters": [
+          {
+            "$ref": "#/parameters/judge_alias"
+          },
+          {
+            "$ref": "#/parameters/problem_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfInput"
+            }
+          }
+        }
+      }
+    },
+    "/input_api/input/retrieve.json": {
+      "get": {
+        "tags": [
+          "input"
+        ],
+        "summary": "get input",
+        "parameters": [
+          {
+            "$ref": "#/parameters/input_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfString"
+            }
+          }
+        }
+      }
+    },
+    "/output_api/output/retrieve.json": {
+      "get": {
+        "tags": [
+          "output"
+        ],
+        "summary": "get output for input",
+        "parameters": [
+          {
+            "$ref": "#/parameters/input_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfString"
+            }
+          }
+        }
+      }
+    },
+    "/output_api/post_custom_input/output.json": {
+      "post": {
+        "tags": [
+          "output"
+        ],
+        "summary": "get ouput for custom input",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "judge_alias",
+            "in": "formData",
+            "description": "name of judge(ex. UVa)",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "problem_id",
+            "in": "formData",
+            "description": "id of problem(ex. 100)",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "formData",
+            "description": "your input",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfString"
+            }
+          }
+        }
+      }
+    },
+    "/hint_api/hint_list/retrieve.json": {
+      "get": {
+        "tags": [
+          "hint"
+        ],
+        "summary": "get list of hints for problem",
+        "parameters": [
+          {
+            "$ref": "#/parameters/judge_alias"
+          },
+          {
+            "$ref": "#/parameters/problem_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfHint"
+            }
+          }
+        }
+      }
+    },
+    "/hint_api/hint/retrieve.json": {
+      "get": {
+        "tags": [
+          "hint"
+        ],
+        "summary": "get hint",
+        "parameters": [
+          {
+            "$ref": "#/parameters/hint_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfString"
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "judge_alias": {
+      "name": "judge_alias",
+      "in": "query",
+      "description": "name of judge(ex. UVa)",
+      "type": "string",
+      "required": true
+    },
+    "problem_id": {
+      "name": "problem_id",
+      "in": "query",
+      "description": "id of problem(ex. 100)",
+      "type": "string",
+      "required": true
+    },
+    "input_id": {
+      "name": "input_id",
+      "in": "query",
+      "description": "id of input(ex. 809768)",
+      "type": "string",
+      "required": true
+    },
+    "hint_id": {
+      "name": "hint_id",
+      "in": "query",
+      "description": "id of hint(ex. 813889)",
+      "type": "string",
+      "required": true
+    }
+  },
+  "definitions": {
+    "ArrayOfString": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "1 2 3"
+      ],
+      "description": "OK"
+    },
+    "ArrayOfInput": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Input"
+      },
+      "example": [
+        {
+          "id": "809768",
+          "user": "morris821028",
+          "Date": "2016-05-03 10:58:30",
+          "Votes": "86"
+        }
+      ]
+    },
+    "Input": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "Date": {
+          "type": "string"
+        },
+        "Votes": {
+          "type": "string"
+        }
+      }
+    },
+    "ArrayOfHint": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Hint"
+      },
+      "example": [
+        {
+          "id": "813889",
+          "user": "Kazi Shadab Anwar",
+          "Date": "2016-05-14 05:46:43",
+          "Votes": "6"
+        }
+      ]
+    },
+    "Hint": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "Date": {
+          "type": "string"
+        },
+        "Votes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
